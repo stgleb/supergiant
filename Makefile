@@ -29,4 +29,9 @@ build: build-builder build-image
 push:
 	docker push $(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)
 
+format: ## Formats the code. Must have goimports installed (use make install-linters).
+	goimports -w -local github.com/supergiant/supergiant ./pkg
+	goimports -w -local github.com/supergiant/supergiant ./test
+	goimports -w -local github.com/supergiant/supergiant ./cmd
+
 release: build push

@@ -138,6 +138,10 @@ func (s *CreateSecurityGroupsStep) Run(ctx context.Context, w io.Writer, cfg *st
 		logrus.Errorf("[%s] - failed to whitelist supergiant IP in master security group: %v", s.Name(), err)
 	}
 
+	if err := s.whiteListSupergiantIP(ctx, EC2, cfg.AWSConfig.NodesSecurityGroupID); err != nil {
+		logrus.Errorf("[%s] - failed to whitelist supergiant IP in master security group: %v", s.Name(), err)
+	}
+
 	return nil
 }
 

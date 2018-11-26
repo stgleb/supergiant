@@ -51,6 +51,15 @@ elif [[ "$TRAVIS_BRANCH" == "master" ]]; then
 	# run tests
 	./run_tests.sh
 	check_status
+	# Build Docker container
+    ./docker_build.sh
+    check_status
+    # Push to Dockerhub
+    ./docker_push.sh
+    check_status
+    # Push to releases page
+    ./push_release.sh
+    check_status
 else
 # any other branch is considered a testing branch and will only run tests and build the container.
 	echo "testing branch - run tests and docker build"

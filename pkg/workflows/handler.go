@@ -70,8 +70,6 @@ func (h *TaskHandler) Register(m *mux.Router) {
 	m.HandleFunc("/tasks/{id}", h.GetTask).Methods(http.MethodGet)
 	m.HandleFunc("/tasks/{id}/restart",
 		h.RestartTask).Methods(http.MethodPost)
-	m.HandleFunc("/tasks/{id}/logs", h.StreamLogs).Methods(http.MethodGet)
-	m.HandleFunc("/tasks/{id}/logs/ws", h.GetLogs).Methods(http.MethodGet)
 }
 
 func (h *TaskHandler) GetTask(w http.ResponseWriter, r *http.Request) {
@@ -229,7 +227,7 @@ func (h *TaskHandler) GetLogs(w http.ResponseWriter, r *http.Request) {
         <div id="logs"></div>
         <script type="text/javascript">
             (function() {
-                var conn = new WebSocket("ws://{{ .Host }}/v1/api/tasks/{{ .TaskID }}/logs", "{{ .Token }}");
+                var conn = new WebSocket("ws://{{ .Host }}/tasks/{{ .TaskID }}/logs");
                 conn.onmessage = function(evt) {
                     console.log('file updated');
  					$('#logs').append("<p>" + evt.data + "</p>");
@@ -320,6 +318,7 @@ func (h *TaskHandler) StreamLogs(w http.ResponseWriter, r *http.Request) {
 		for {
 			select {
 			case line := <-t.Lines:
+				logrus.Debugf("websocket new line")
 				c.SetWriteDeadline(time.Now().Add(time.Second * 10))
 				err = c.WriteMessage(websocket.TextMessage, []byte(line.Text))
 
@@ -328,6 +327,7 @@ func (h *TaskHandler) StreamLogs(w http.ResponseWriter, r *http.Request) {
 					return
 				}
 			case <-pingTicker.C:
+				logrus.Debugf("websocket ping")
 				c.SetWriteDeadline(time.Now().Add(time.Second * 10))
 				if err := c.WriteMessage(websocket.PingMessage, []byte{}); err != nil {
 					return

@@ -256,6 +256,11 @@ func configureApplication(cfg *Config) (*mux.Router, error) {
 	taskHandler := workflows.NewTaskHandler(repository, sshRunner.NewRunner, accountService)
 	taskHandler.Register(protectedAPI)
 
+	router.HandleFunc("/tasks/{id}/logs",
+		taskHandler.StreamLogs).Methods(http.MethodGet)
+	router.HandleFunc("/tasks/{id}/logs/ws",
+		taskHandler.GetLogs).Methods(http.MethodGet)
+
 	helmService, err := sghelm.NewService(repository)
 	if err != nil {
 		return nil, errors.Wrap(err, "new helm service")

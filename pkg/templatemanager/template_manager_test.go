@@ -4,10 +4,7 @@ import (
 	"testing"
 	"text/template"
 
-	"github.com/stretchr/testify/require"
-
 	"github.com/supergiant/control/pkg/sgerrors"
-	"github.com/supergiant/control/templates"
 )
 
 func TestGetTemplate(t *testing.T) {
@@ -51,15 +48,5 @@ func TestSetTemplate(t *testing.T) {
 
 	if _, ok := templateMap[testKey]; !ok {
 		t.Errorf("key %s must not in templateMap %v", testKey, templateMap)
-	}
-}
-
-func TestInitDefault(t *testing.T) {
-	err := Init("")
-	require.Nil(t, err)
-
-	for k := range templates.Default {
-		_, err := GetTemplate(k)
-		require.Nilf(t, err, "%q template should exist")
 	}
 }

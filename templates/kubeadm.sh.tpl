@@ -1,6 +1,3 @@
-package templates
-
-const kubeadmTpl = `
 set -e
 
 sudo apt-get update && sudo apt-get install -y apt-transport-https curl
@@ -23,7 +20,8 @@ HOSTNAME="$(hostname -f)"
 {{ end }}
 
 # TODO: place ca/kubeblet certificates to the custom dir to make this step idempotent.
-#       'kubeadm reset' removes this certificates and then creates a new one.
+#       `kubeadm reset` removes this certificates and then creates a new one.
+
 
 sudo mkdir -p /etc/supergiant
 
@@ -158,4 +156,3 @@ sudo kubeadm join --ignore-preflight-errors=NumCPU {{ .InternalDNSName }}:443 \
 --node-name ${HOSTNAME} \
 --config=/etc/supergiant/kubeadm.conf
 {{ end }}
-`

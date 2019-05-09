@@ -1,6 +1,5 @@
-package templates
-
-const prometheusTpl = `
+# prometheus-operator hac rbac enabled by default so set
+# it explicitly
 sudo /usr/bin/helm install stable/prometheus-operator \
     --name=prometheus-operator \
     --namespace=kube-system \
@@ -10,4 +9,3 @@ sudo /usr/bin/helm install stable/prometheus-operator \
     --set kube-state-metrics.rbac.create={{ .RBACEnabled }} \
     --set prometheus-node-exporter.rbac.create={{ .RBACEnabled }} \
     --set exporter-kubelets.https=true
-`

@@ -1,6 +1,3 @@
-package templates
-
-const certificatesTpl = `
 sudo mkdir -p /etc/kubernetes
 sudo mkdir -p /etc/kubernetes/pki
 sudo mkdir -p /etc/kubernetes/pki/etcd
@@ -108,4 +105,4 @@ sudo rm /etc/kubernetes/pki/admin.key
 sudo rm /etc/kubernetes/pki/admin.crt
 
 {{ end }}
-`
+

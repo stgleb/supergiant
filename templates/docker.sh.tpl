@@ -1,6 +1,6 @@
-package templates
+#!/bin/sh
+# https://download.docker.com/linux/ubuntu/dists/xenial/pool/stable/amd64/docker-ce_18.09.2~ce-0~ubuntu_amd64.deb
 
-const dockerTpl = `
 DOCKER_VERSION={{ .Version }}
 ARCH={{ .Arch }}
 
@@ -29,4 +29,3 @@ if [ -z "${FULL_DOCKER_VERSION}" ]; then
 fi
 
 sudo apt-get install -y docker-ce=${FULL_DOCKER_VERSION} containerd.io
-`

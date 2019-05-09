@@ -1,6 +1,5 @@
-package templates
 
-const storageclassTpl = `
+
 {{ if eq .Provider "aws"}}
 sudo bash -c "cat > storageclass.yaml <<EOF
 apiVersion: storage.k8s.io/v1
@@ -12,7 +11,9 @@ metadata:
 provisioner: kubernetes.io/aws-ebs
 parameters:
   type: gp2
+
 ---
+
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
@@ -56,4 +57,5 @@ EOF"
 echo applying default storage class
 sudo cat ./storageclass.yaml
 sudo kubectl apply -f storageclass.yaml
-`
+
+
